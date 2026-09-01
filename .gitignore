@@ -54,3 +54,4 @@ web/.env.local
 *.log
 *.tmp
 video.md
+notes/
