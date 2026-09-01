@@ -132,7 +132,7 @@ def test_abstention_triggers_detection():
         },
     )
     assert len(pnr_triggers) >= 1
-    assert "returned/undelivered" in pnr_triggers[0]
+    assert "returned to sender" in pnr_triggers[0] or "undelivered" in pnr_triggers[0]
 
     # 3. Credit not processed with refund promised
     refund_triggers = check_abstention_triggers(

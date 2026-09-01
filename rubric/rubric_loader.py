@@ -115,40 +115,54 @@ def check_abstention_triggers(category_id: str, case_data: Dict[str, Any]) -> Li
         return ["Unknown dispute category requiring manual review."]
 
     amount = float(case_data.get("dispute_amount", 0.0) or case_data.get("amount", 0.0))
-    metadata = case_data.get("metadata", {})
     notes = str(case_data.get("merchant_notes", "")).lower()
-    delivery_status = str(case_data.get("delivery_status", "")).lower()
-    auth_3ds = case_data.get("auth_3ds", {})
+    deliv = case_data.get("delivery_tracking") or {}
+    delivery_status = str(deliv.get("status") or case_data.get("delivery_status") or "").lower()
+    auth_3ds = case_data.get("auth_3ds") or {}
 
     # Universal triggers
-    if "fraud acknowledged" in notes or "merchant fault" in notes or "internal error" in notes:
-        triggers.append("Merchant internal notes acknowledge operational defect or merchant liability.")
+    if (
+        "fraud acknowledged" in notes
+        or "merchant fault" in notes
+        or "internal fault" in notes
+        or "internal error" in notes
+        or "batch quality check failed" in notes
+    ):
+        triggers.append("Merchant internal notes acknowledge operational defect, faulty batch, or merchant liability.")
 
     if category_id == "fraudulent_unauthorized":
-        eci = str(auth_3ds.get("eci", "")).strip()
+        eci = str(auth_3ds.get("cavv_eci") or auth_3ds.get("eci") or "").strip()
         auth_status = str(auth_3ds.get("status", "")).lower()
-        if not auth_3ds or (auth_status not in ["success", "authenticated"] and eci not in ["05", "02", "06"]):
-            if amount > 10000.0:
+        auth_type = str(auth_3ds.get("auth_type", "")).upper()
+        if not auth_3ds or auth_type == "NONE" or auth_status in ["failed", "bypassed"] or (auth_status not in ["success", "authenticated"] and eci not in ["05", "02", "06"] and auth_type != "UPI_PIN"):
+            if amount >= 10000.0:
                 triggers.append(
                     f"High-value dispute (INR {amount:,.2f}) completely lacks 3D Secure / UPI OTP liability shift."
                 )
 
     elif category_id == "product_service_not_received":
         if delivery_status in ["rto", "returned_to_origin", "failed", "cancelled", "undelivered"]:
-            triggers.append(f"Courier tracking indicates package was returned/undelivered (status: '{delivery_status}').")
+            rto_r = deliv.get("rto_reason") or "Package undelivered"
+            triggers.append(f"Courier tracking confirms package returned to sender (RTO) or undelivered ({rto_r}).")
+
+    elif category_id == "product_unacceptable_defective":
+        if "batch quality check failed" in notes or "defect acknowledged" in notes or "internal fault" in notes:
+            triggers.append("Merchant acknowledged product defect or manufacturing flaw without processing replacement/refund.")
 
     elif category_id == "credit_refund_not_processed":
-        refund_status = str(case_data.get("refund_status", "")).lower()
-        if "promised" in notes and refund_status not in ["success", "processed", "settled"]:
-            triggers.append("Merchant communications confirm refund was promised but no ARN reference was generated.")
+        refund = case_data.get("refund_logs") or {}
+        refund_status = str(refund.get("status") or case_data.get("refund_status") or "").lower()
+        if ("promised" in notes or "failed" in refund_status) and refund_status not in ["processed", "settled", "success"]:
+            triggers.append("Merchant communications confirm refund was promised but no valid ARN reference was settled.")
 
     elif category_id == "duplicate_incorrect_amount":
-        if case_data.get("gateway_retry_duplicate") is True:
-            triggers.append("Gateway logs confirm automated payment retry created duplicate capture.")
+        if case_data.get("gateway_retry_duplicate") is True or "gateway retry" in notes or "discrepancy" in notes:
+            triggers.append("Gateway logs confirm automated payment retry or discrepancy in authorized checkout total.")
 
     elif category_id == "subscription_recurring_cancellation":
-        cancellation_date = case_data.get("cancellation_requested_date")
-        charge_date = case_data.get("charge_date")
+        sub = case_data.get("subscription_mandate") or {}
+        cancellation_date = sub.get("cancellation_request_timestamp") or case_data.get("cancellation_requested_date")
+        charge_date = sub.get("signup_timestamp") or case_data.get("charge_date")
         if cancellation_date and charge_date and cancellation_date < charge_date:
             triggers.append("Customer cancellation timestamp preceded recurring billing execution.")
 
