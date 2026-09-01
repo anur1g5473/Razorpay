@@ -44,4 +44,33 @@
 
 ---
 
+---
+
+## ADR-004: Abstention Gate Architecture (Hard Rules over Soft Thresholds)
+
+**Context:** Naively relying on soft threshold cuts (e.g. score < 50) for abstention leaves merchants vulnerable when a case has a high total score from minor supporting points, but lacks a critical non-negotiable fact (e.g. 3DS log or courier proof) or has an explicit disqualifier (courier RTO).
+
+**Decision:** The Abstention Gate combines category-specific disqualification triggers with threshold checks. If any hard trigger fires (e.g. RTO status, missing 3DS on high-ticket card transaction, merchant cancellation admission), the recommendation immediately drops to `ABSTAIN` or `FLAG_FOR_REVIEW`, regardless of other supporting evidence points.
+
+**Consequences:**
+- ✅ Prevents catastrophic representation fee penalties on disputes with glaring fatal flaws.
+- ✅ Protects the merchant's chargeback win ratio with acquiring banks.
+
+---
+
+## ADR-005: Dual Output Paradigm (Continuous Probability + Discrete 3-Tier Categorical Decision)
+
+**Context:** Merchants and risk analysts need both an intuitive action (`CONTEST`, `CONCEDE`/`ABSTAIN`, `HUMAN_REVIEW`) and a granular win probability (0.0% to 100.0%) for portfolio risk analytics.
+
+**Decision:** The engine outputs both a discrete recommendation and a continuous win probability calculated from calibrated rubric thresholds.
+
+---
+
+## ADR-006: Asymmetric Financial Payoff Risk Modeling
+
+**Context:** Standard machine learning optimizes symmetric loss (e.g. standard cross-entropy). In payment disputes, a False Contest (contesting an unwinnable chargeback) costs the disputed amount PLUS network arbitration penalty fees ($15-$50), whereas conceding an unwinnable dispute costs only the disputed amount.
+
+**Decision:** Our evaluation metrics explicitly calculate asymmetric net financial recovery, penalizing false-positive contest recommendations by factoring in representment fines.
+
+
 *More decisions will be documented as we build.*
