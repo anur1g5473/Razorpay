@@ -4,6 +4,50 @@ from __future__ import annotations
 from typing import Dict, Any, Tuple, List
 
 
+def normalize_case_payload(data: Dict[str, Any]) -> Dict[str, Any]:
+    """Flattens and standardizes case payload supporting evidence_slices sub-dicts."""
+    norm = dict(data)
+    slices = data.get("evidence_slices") or {}
+    if isinstance(slices, dict):
+        if "proof_of_delivery" in slices and not norm.get("delivery_tracking"):
+            norm["delivery_tracking"] = slices["proof_of_delivery"]
+        if "delivery_tracking" in slices and not norm.get("delivery_tracking"):
+            norm["delivery_tracking"] = slices["delivery_tracking"]
+        if "fulfillment_dispatch_proof" in slices and not norm.get("invoice_dispatch"):
+            norm["invoice_dispatch"] = slices["fulfillment_dispatch_proof"]
+        if "invoice_dispatch" in slices and not norm.get("invoice_dispatch"):
+            norm["invoice_dispatch"] = slices["invoice_dispatch"]
+        if "3ds_authentication_log" in slices and not norm.get("auth_3ds"):
+            norm["auth_3ds"] = slices["3ds_authentication_log"]
+        if "auth_3ds" in slices and not norm.get("auth_3ds"):
+            norm["auth_3ds"] = slices["auth_3ds"]
+        if "customer_communication" in slices and not norm.get("customer_communication"):
+            norm["customer_communication"] = slices["customer_communication"]
+        if "merchant_customer_correspondence" in slices and not norm.get("customer_communication"):
+            norm["customer_communication"] = slices["merchant_customer_correspondence"]
+        if "customer_account" in slices and not norm.get("customer_account"):
+            norm["customer_account"] = slices["customer_account"]
+        if "order_fulfillment_history" in slices and not norm.get("customer_account"):
+            norm["customer_account"] = slices["order_fulfillment_history"]
+        if "refund_logs" in slices and not norm.get("refund_logs"):
+            norm["refund_logs"] = slices["refund_logs"]
+        if "refund_proof_or_cancellation_policy" in slices and not norm.get("refund_logs"):
+            norm["refund_logs"] = slices["refund_proof_or_cancellation_policy"]
+        if "price_breakdown" in slices and not norm.get("price_breakdown"):
+            norm["price_breakdown"] = slices["price_breakdown"]
+        if "price_breakdown_and_authorization" in slices and not norm.get("price_breakdown"):
+            norm["price_breakdown"] = slices["price_breakdown_and_authorization"]
+        if "subscription_mandate" in slices and not norm.get("subscription_mandate"):
+            norm["subscription_mandate"] = slices["subscription_mandate"]
+        if "subscription_contract_terms" in slices and not norm.get("subscription_mandate"):
+            norm["subscription_mandate"] = slices["subscription_contract_terms"]
+        if "service_usage" in slices and not norm.get("service_usage"):
+            norm["service_usage"] = slices["service_usage"]
+        if "customer_usage_activity" in slices and not norm.get("service_usage"):
+            norm["service_usage"] = slices["customer_usage_activity"]
+
+    return norm
+
 def eval_3ds_authentication(data: Dict[str, Any], weight: float) -> Tuple[float, List[str], List[str], List[str], List[str]]:
     auth = data.get("auth_3ds") or {}
     status = auth.get("status")
@@ -43,12 +87,11 @@ def eval_ip_device(data: Dict[str, Any], weight: float) -> Tuple[float, List[str
 
 def eval_proof_of_delivery(data: Dict[str, Any], weight: float) -> Tuple[float, List[str], List[str], List[str], List[str]]:
     deliv = data.get("delivery_tracking") or {}
-    status = deliv.get("status")
-    sig = deliv.get("recipient_signature")
-    gps = deliv.get("recipient_gps")
-    fields = ["carrier_name", "tracking_number", "delivery_timestamp", "delivery_address", "recipient_signature_or_gps"]
-    f_pres = [k for k in ["carrier_name", "tracking_number", "delivery_timestamp", "shipping_address"] if deliv.get(k)]
-    f_miss = [k for k in ["carrier_name", "tracking_number", "delivery_timestamp", "shipping_address"] if not deliv.get(k)]
+    status = (deliv.get("status") or deliv.get("delivery_status") or "").lower()
+    sig = deliv.get("recipient_signature") or deliv.get("recipient_signature_or_gps")
+    gps = deliv.get("recipient_gps") or deliv.get("recipient_signature_or_gps")
+    f_pres = [k for k in ["carrier_name", "tracking_number", "delivery_timestamp"] if deliv.get(k)]
+    f_miss = [k for k in ["carrier_name", "tracking_number", "delivery_timestamp"] if not deliv.get(k)]
 
     if status == "delivered":
         if sig or gps:

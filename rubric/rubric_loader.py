@@ -167,3 +167,31 @@ def check_abstention_triggers(category_id: str, case_data: Dict[str, Any]) -> Li
             triggers.append("Customer cancellation timestamp preceded recurring billing execution.")
 
     return triggers
+
+
+
+class RubricLoader:
+    """Object-oriented interface for loading and querying rubric specifications."""
+
+    def __init__(self, force_reload: bool = False):
+        self._rubric = load_rubric(force_reload=force_reload)
+
+    @property
+    def rubric(self) -> EvidenceRubric:
+        return self._rubric
+
+    def list_categories(self) -> List[str]:
+        return list(self._rubric.categories.keys())
+
+    def get_category(self, category_id: str) -> Optional[DisputeCategoryRubric]:
+        return get_category_rubric(category_id)
+
+    def get_category_for_reason_code(self, code: str) -> Optional[DisputeCategoryRubric]:
+        return get_category_rubric(code)
+
+    def get_required_evidence(self, category_or_code: str) -> List[EvidenceItem]:
+        return get_required_evidence_items(category_or_code)
+
+    def check_abstention(self, category_id: str, case_data: Dict[str, Any]) -> List[str]:
+        return check_abstention_triggers(category_id, case_data)
+

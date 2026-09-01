@@ -38,6 +38,10 @@ class PipelineResult(BaseModel):
     execution_time_ms: float = 0.0
 
 
+    def to_dict(self) -> Dict[str, Any]:
+        return self.model_dump()
+
+
 def run_pipeline(
     case: Union[DisputeCase, Dict[str, Any]],
     use_llm: bool = True,
@@ -105,4 +109,22 @@ def run_pipeline_batch(
 ) -> List[PipelineResult]:
     """Executes the pipeline over a batch of cases."""
     return [run_pipeline(c, use_llm=use_llm) for c in cases]
+
+
+class DisputePipeline:
+    def __init__(self, model_name: Optional[str] = None, use_llm: bool = False):
+        self.model_name = model_name
+        self.use_llm = use_llm
+
+    def run(self, case: Union[DisputeCase, Dict[str, Any]], use_llm: Optional[bool] = None) -> PipelineResult:
+        llm_flag = self.use_llm if use_llm is None else use_llm
+        return run_pipeline(case, use_llm=llm_flag)
+
+    def run_batch(self, cases: List[Union[DisputeCase, Dict[str, Any]]], use_llm: Optional[bool] = None) -> List[PipelineResult]:
+        llm_flag = self.use_llm if use_llm is None else use_llm
+        return run_pipeline_batch(cases, use_llm=llm_flag)
+
+
+AgentPipeline = DisputePipeline
+
 

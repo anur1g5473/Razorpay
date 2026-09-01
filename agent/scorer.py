@@ -50,17 +50,22 @@ class ScoringResult(BaseModel):
     quality_warnings: List[str] = Field(default_factory=list)
     actionable_recommendations: List[str] = Field(default_factory=list)
 
-from agent.eval_rules import EVALUATOR_MAP
+    @property
+    def is_abstaining(self) -> bool:
+        return self.abstention_triggered
+
+
+from agent.eval_rules import EVALUATOR_MAP, normalize_case_payload
 
 
 def score_dispute_case(case: Union[DisputeCase, Dict[str, Any]]) -> ScoringResult:
     """Scores a single dispute case payload against its category rubric."""
     if isinstance(case, DisputeCase):
-        data = case.model_dump()
+        data = normalize_case_payload(case.model_dump())
         case_id = case.case_id
         cat_id_or_code = case.dispute_category or case.reason_code
     elif isinstance(case, dict):
-        data = case
+        data = normalize_case_payload(case)
         case_id = case.get("case_id")
         cat_id_or_code = case.get("dispute_category") or case.get("reason_code") or "fraudulent_unauthorized"
     else:

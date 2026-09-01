@@ -10,16 +10,18 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from api.routes import analyze, cases, eval as eval_routes, rubric
+
 app = FastAPI(
     title="DisputeShield API",
-    version="0.1.0",
-    description="AI-powered chargeback evidence responder — REST API.",
+    version="1.0.0",
+    description="AI-powered chargeback evidence responder and dynamic rubric evaluation engine.",
 )
 
-# Allow the Next.js dev server and production origins.
+# Allow Next.js frontend origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -30,8 +32,9 @@ app.add_middleware(
 async def root():
     return {
         "service": "DisputeShield API",
-        "version": "0.1.0",
+        "version": "1.0.0",
         "status": "ok",
+        "docs_url": "/docs",
     }
 
 
@@ -40,9 +43,9 @@ async def health():
     return {"status": "healthy"}
 
 
-# Route modules will be included here in Phase 5:
-# from api.routes import analyze, cases, eval_routes, rubric
-# app.include_router(analyze.router)
-# app.include_router(cases.router)
-# app.include_router(eval_routes.router)
-# app.include_router(rubric.router)
+# Register all routers
+app.include_router(cases.router)
+app.include_router(analyze.router)
+app.include_router(rubric.router)
+app.include_router(eval_routes.router)
+

@@ -216,6 +216,9 @@ def load_case_by_id(case_id: str) -> DisputeCase:
     raise KeyError(f"Case with ID {case_id} not found.")
 
 
+load_case = load_case_by_id
+
+
 if __name__ == "__main__":
     cases = generate_all_cases()
     save_cases(cases)
