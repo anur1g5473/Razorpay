@@ -1,0 +1,49 @@
+{
+  "case_id": "disp_089",
+  "merchant_id": "merch_chargebee_13",
+  "merchant_name": "Chargebee Subscriptions",
+  "merchant_category": "SaaS",
+  "payment_id": "pay_98787891",
+  "dispute_amount": 499.0,
+  "currency": "INR",
+  "payment_method": "card",
+  "card_network": "Visa",
+  "dispute_category": "subscription_recurring_cancellation",
+  "reason_code": "C06",
+  "reason_description": "Cardholder claims subscription was cancelled prior to recurring charge",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "win",
+  "ground_truth_reasoning": "Active recurring mandate with compliant pre-debit notice sent; active logins during disputed billing cycle.",
+  "auth_3ds": null,
+  "delivery_tracking": null,
+  "invoice_dispatch": null,
+  "customer_communication": [],
+  "customer_account": null,
+  "refund_logs": null,
+  "price_breakdown": null,
+  "subscription_mandate": {
+    "subscription_id": "sub_464069",
+    "mandate_id": "mand_9937982",
+    "billing_cycle": "monthly",
+    "recurrence_amount": 499.0,
+    "signup_timestamp": "2026-06-15T00:00:00Z",
+    "pre_debit_notification_sent": true,
+    "pre_debit_timestamp": "2026-08-13T10:00:00Z",
+    "cancellation_request_timestamp": null,
+    "terms_version": "v2.1"
+  },
+  "service_usage": {
+    "account_id": "cust_8018",
+    "active_login_count": 12,
+    "last_login_timestamp": "2026-08-22T19:00:00Z",
+    "license_key_activated": null,
+    "features_used": [
+      "api_access",
+      "dashboard_analytics",
+      "export_reports"
+    ],
+    "bytes_transferred": null
+  },
+  "merchant_notes": "Customer utilized premium tier during disputed month with no cancellation on file."
+}

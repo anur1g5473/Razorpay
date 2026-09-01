@@ -5,10 +5,39 @@ import json
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 from rubric.models import EvidenceRubric, DisputeCategoryRubric, EvidenceItem
-from rubric.rubric_data import RUBRIC, ALL_CATEGORIES
+from rubric.defs_fraud import FRAUD_CATEGORY
+from rubric.defs_pnr import PNR_CATEGORY
+from rubric.defs_defective import DEFECTIVE_CATEGORY
+from rubric.defs_refund import REFUND_CATEGORY
+from rubric.defs_duplicate import DUPLICATE_CATEGORY
+from rubric.defs_subscription import SUBSCRIPTION_CATEGORY
 
 _CACHED_RUBRIC: Optional[EvidenceRubric] = None
 RUBRIC_JSON_PATH = Path(__file__).parent / "evidence_rubric.json"
+
+
+def get_default_rubric() -> EvidenceRubric:
+    categories = {
+        FRAUD_CATEGORY["category_id"]: DisputeCategoryRubric(**FRAUD_CATEGORY),
+        PNR_CATEGORY["category_id"]: DisputeCategoryRubric(**PNR_CATEGORY),
+        DEFECTIVE_CATEGORY["category_id"]: DisputeCategoryRubric(**DEFECTIVE_CATEGORY),
+        REFUND_CATEGORY["category_id"]: DisputeCategoryRubric(**REFUND_CATEGORY),
+        DUPLICATE_CATEGORY["category_id"]: DisputeCategoryRubric(**DUPLICATE_CATEGORY),
+        SUBSCRIPTION_CATEGORY["category_id"]: DisputeCategoryRubric(**SUBSCRIPTION_CATEGORY),
+    }
+    return EvidenceRubric(
+        version="1.0.0",
+        last_updated="2026-09-01",
+        description="DisputeShield Evidence Evaluation Rubric across card schemes (Visa, Mastercard, RuPay, Amex), UPI, and Razorpay codes.",
+        categories=categories,
+    )
+
+
+def save_rubric_json(target_path: Optional[Path | str] = None) -> Path:
+    dest = Path(target_path) if target_path else RUBRIC_JSON_PATH
+    rubric = get_default_rubric()
+    dest.write_text(rubric.model_dump_json(indent=2), encoding="utf-8")
+    return dest
 
 
 def load_rubric(force_reload: bool = False) -> EvidenceRubric:
@@ -24,9 +53,10 @@ def load_rubric(force_reload: bool = False) -> EvidenceRubric:
             _CACHED_RUBRIC = EvidenceRubric(**data)
             return _CACHED_RUBRIC
         except Exception:
-            _CACHED_RUBRIC = RUBRIC
+            _CACHED_RUBRIC = get_default_rubric()
             return _CACHED_RUBRIC
-    _CACHED_RUBRIC = RUBRIC
+    _CACHED_RUBRIC = get_default_rubric()
+    save_rubric_json()
     return _CACHED_RUBRIC
 
 

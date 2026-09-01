@@ -1,0 +1,46 @@
+{
+  "case_id": "disp_063",
+  "merchant_id": "merch_boat_10",
+  "merchant_name": "boAt Lifestyle",
+  "merchant_category": "D2C",
+  "payment_id": "pay_73709724",
+  "dispute_amount": 20467.66,
+  "currency": "INR",
+  "payment_method": "card",
+  "card_network": "Mastercard",
+  "dispute_category": "credit_refund_not_processed",
+  "reason_code": "C04",
+  "reason_description": "Cardholder claims promised refund or credit was not processed",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "lose",
+  "ground_truth_reasoning": "Merchant promised refund in support chat, but gateway refund transaction failed with no ARN generated.",
+  "auth_3ds": null,
+  "delivery_tracking": null,
+  "invoice_dispatch": null,
+  "customer_communication": [
+    {
+      "ticket_id": "TICK-3607",
+      "timestamp": "2026-08-12T11:00:00Z",
+      "sender": "support",
+      "message": "We will process your full refund within 3 business days.",
+      "resolution_offered": "Full refund promised.",
+      "customer_response": null,
+      "return_label_sent": null
+    }
+  ],
+  "customer_account": null,
+  "refund_logs": {
+    "refund_id": "rfnd_8481188",
+    "arn_rrn": null,
+    "amount": 20467.66,
+    "status": "failed",
+    "refund_timestamp": "2026-08-15T09:00:00Z",
+    "store_credit_code": null,
+    "store_credit_redeemed": false
+  },
+  "price_breakdown": null,
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Refund promised to customer but failed at payment processor without retry."
+}

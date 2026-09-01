@@ -1,0 +1,46 @@
+{
+  "case_id": "disp_059",
+  "merchant_id": "merch_flipkart_01",
+  "merchant_name": "Flipkart India",
+  "merchant_category": "E-commerce",
+  "payment_id": "pay_61536717",
+  "dispute_amount": 1632.24,
+  "currency": "INR",
+  "payment_method": "card",
+  "card_network": "RuPay",
+  "dispute_category": "credit_refund_not_processed",
+  "reason_code": "RP-4004",
+  "reason_description": "Cardholder claims promised refund or credit was not processed",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "win",
+  "ground_truth_reasoning": "Valid Acquirer Reference Number (ARN) confirms refund was settled back to cardholder prior to dispute.",
+  "auth_3ds": null,
+  "delivery_tracking": null,
+  "invoice_dispatch": null,
+  "customer_communication": [
+    {
+      "ticket_id": "TICK-4185",
+      "timestamp": "2026-08-14T10:35:00Z",
+      "sender": "system",
+      "message": "Refund of INR {amount} has been successfully processed to your bank account under ARN reference.",
+      "resolution_offered": "Bank ARN reference provided.",
+      "customer_response": null,
+      "return_label_sent": null
+    }
+  ],
+  "customer_account": null,
+  "refund_logs": {
+    "refund_id": "rfnd_2221854",
+    "arn_rrn": "ARN557222530916",
+    "amount": 1632.24,
+    "status": "processed",
+    "refund_timestamp": "2026-08-14T10:30:00Z",
+    "store_credit_code": null,
+    "store_credit_redeemed": false
+  },
+  "price_breakdown": null,
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Refund completed to original payment method before chargeback was received."
+}

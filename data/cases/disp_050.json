@@ -1,0 +1,46 @@
+{
+  "case_id": "disp_050",
+  "merchant_id": "merch_unacademy_07",
+  "merchant_name": "Unacademy EdTech",
+  "merchant_category": "EdTech",
+  "payment_id": "pay_99038359",
+  "dispute_amount": 30404.88,
+  "currency": "INR",
+  "payment_method": "upi",
+  "card_network": "UPI",
+  "dispute_category": "product_unacceptable_defective",
+  "reason_code": "UPI-04",
+  "reason_description": "Cardholder claims product was defective, damaged, or not as described",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "lose",
+  "ground_truth_reasoning": "Support ticket shows merchant acknowledged manufacturing defect but did not provide replacement.",
+  "auth_3ds": null,
+  "delivery_tracking": null,
+  "invoice_dispatch": null,
+  "customer_communication": [
+    {
+      "ticket_id": "TICK-6143",
+      "timestamp": "2026-08-16T14:00:00Z",
+      "sender": "support_agent",
+      "message": "Acknowledged that a defective unit from batch #B-902 was dispatched in error.",
+      "resolution_offered": "None offered prior to dispute.",
+      "customer_response": "Dispute raised following no response.",
+      "return_label_sent": null
+    }
+  ],
+  "customer_account": null,
+  "refund_logs": null,
+  "price_breakdown": {
+    "subtotal": 30404.88,
+    "tax": 0.0,
+    "shipping": 0.0,
+    "discount": 0.0,
+    "total_authorized": 30404.88,
+    "currency": "INR",
+    "item_specifications_url": null
+  },
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Merchant internal fault acknowledged: batch quality check failed."
+}

@@ -1,0 +1,58 @@
+{
+  "case_id": "disp_006",
+  "merchant_id": "merch_cleartrip_06",
+  "merchant_name": "Cleartrip Travel",
+  "merchant_category": "Travel",
+  "payment_id": "pay_95899313",
+  "dispute_amount": 9823.06,
+  "currency": "INR",
+  "payment_method": "upi",
+  "card_network": "UPI",
+  "dispute_category": "fraudulent_unauthorized",
+  "reason_code": "UPI-01",
+  "reason_description": "Cardholder claims unauthorized transaction",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "win",
+  "ground_truth_reasoning": "Fully authenticated 3DS/UPI transaction with verified account history and customer order acknowledgment.",
+  "auth_3ds": {
+    "auth_type": "3DS_V2",
+    "cavv_eci": "05",
+    "auth_timestamp": "2026-08-15T14:22:10Z",
+    "status": "authenticated",
+    "transaction_reference": "tx_auth_660086",
+    "bank_reference_number": "BRN882893941",
+    "ip_address": "103.21.124.55",
+    "device_fingerprint": "fp_and_98a76bc1209e",
+    "vpn_detected": false,
+    "geo_location_match": true
+  },
+  "delivery_tracking": null,
+  "invoice_dispatch": null,
+  "customer_communication": [
+    {
+      "ticket_id": "TICK-5422",
+      "timestamp": "2026-08-16T10:00:00Z",
+      "sender": "customer",
+      "message": "Hi, when will my order be dispatched? Please update.",
+      "resolution_offered": "Tracking link shared via WhatsApp and email.",
+      "customer_response": "Thanks, received tracking.",
+      "return_label_sent": null
+    }
+  ],
+  "customer_account": {
+    "account_id": "cust_5010",
+    "created_date": "2025-01-10",
+    "prior_order_count": 6,
+    "prior_undisputed_amount": 52173.23,
+    "account_email": "customer@example.in",
+    "account_phone": "+919876543210",
+    "matches_billing": true,
+    "kyc_verified": true
+  },
+  "refund_logs": null,
+  "price_breakdown": null,
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Customer contacted support confirming order dispatch. Established KYC account."
+}

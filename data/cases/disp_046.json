@@ -1,0 +1,46 @@
+{
+  "case_id": "disp_046",
+  "merchant_id": "merch_flipkart_01",
+  "merchant_name": "Flipkart India",
+  "merchant_category": "E-commerce",
+  "payment_id": "pay_87925434",
+  "dispute_amount": 28163.6,
+  "currency": "INR",
+  "payment_method": "upi",
+  "card_network": "UPI",
+  "dispute_category": "product_unacceptable_defective",
+  "reason_code": "UPI-04",
+  "reason_description": "Cardholder claims product was defective, damaged, or not as described",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "win",
+  "ground_truth_reasoning": "Merchant provided detailed spec match and offered return/replacement label which customer refused.",
+  "auth_3ds": null,
+  "delivery_tracking": null,
+  "invoice_dispatch": null,
+  "customer_communication": [
+    {
+      "ticket_id": "TICK-3925",
+      "timestamp": "2026-08-16T14:00:00Z",
+      "sender": "merchant",
+      "message": "We provided a pre-paid return shipping label #RET-8812 for inspection or replacement.",
+      "resolution_offered": "Pre-paid return shipping label and replacement within 48 hours.",
+      "customer_response": "Customer refused return process and demanded instant chargeback.",
+      "return_label_sent": true
+    }
+  ],
+  "customer_account": null,
+  "refund_logs": null,
+  "price_breakdown": {
+    "subtotal": 28163.6,
+    "tax": 0.0,
+    "shipping": 0.0,
+    "discount": 0.0,
+    "total_authorized": 28163.6,
+    "currency": "INR",
+    "item_specifications_url": "https://merchant.in/products/item-specs-certified"
+  },
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Return authorization provided; customer kept product and refused return shipment."
+}

@@ -1,0 +1,55 @@
+{
+  "case_id": "disp_040",
+  "merchant_id": "merch_zomato_11",
+  "merchant_name": "Zomato Dining",
+  "merchant_category": "QuickCommerce",
+  "payment_id": "pay_33763566",
+  "dispute_amount": 6624.74,
+  "currency": "INR",
+  "payment_method": "card",
+  "card_network": "Mastercard",
+  "dispute_category": "product_service_not_received",
+  "reason_code": "C08",
+  "reason_description": "Cardholder claims goods or services were not received",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "ambiguous",
+  "ground_truth_reasoning": "Package still in transit past estimated delivery date; neither delivered nor returned.",
+  "auth_3ds": null,
+  "delivery_tracking": {
+    "carrier_name": "Shadowfax",
+    "tracking_number": "TRK30743797",
+    "status": "in_transit",
+    "dispatch_date": "2026-08-16",
+    "delivery_timestamp": null,
+    "shipping_address": "Sector 16, Mumbai, Maharashtra - 400001",
+    "delivered_to_address": null,
+    "recipient_signature": null,
+    "recipient_gps": null,
+    "rto_reason": null,
+    "weight_kg": null
+  },
+  "invoice_dispatch": {
+    "invoice_number": "INV-2026-31299",
+    "invoice_date": "2026-08-16",
+    "line_items": [
+      {
+        "item": "Home Decor Set",
+        "qty": 1,
+        "price": 6624.74
+      }
+    ],
+    "item_manifest_verified": true,
+    "shipping_label_id": null,
+    "total_amount": 6624.74,
+    "tax_amount": null,
+    "shipping_fee": null
+  },
+  "customer_communication": [],
+  "customer_account": null,
+  "refund_logs": null,
+  "price_breakdown": null,
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Courier delayed due to regional transit strikes."
+}

@@ -1,0 +1,72 @@
+{
+  "case_id": "disp_026",
+  "merchant_id": "merch_cultfit_08",
+  "merchant_name": "Cult.fit Fitness",
+  "merchant_category": "D2C",
+  "payment_id": "pay_66775103",
+  "dispute_amount": 4161.95,
+  "currency": "INR",
+  "payment_method": "card",
+  "card_network": "Visa",
+  "dispute_category": "product_service_not_received",
+  "reason_code": "RP-4002",
+  "reason_description": "Cardholder claims goods or services were not received",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "win",
+  "ground_truth_reasoning": "Carrier tracking confirms physical delivery with recipient GPS match prior to dispute date.",
+  "auth_3ds": null,
+  "delivery_tracking": {
+    "carrier_name": "Delhivery Logistics",
+    "tracking_number": "TRK60864911",
+    "status": "delivered",
+    "dispatch_date": "2026-08-10",
+    "delivery_timestamp": "2026-08-14T16:45:00Z",
+    "shipping_address": "Flat 103, Palm Grove, Ahmedabad, Gujarat - 380001",
+    "delivered_to_address": "Flat 500, Palm Grove, Ahmedabad, Gujarat - 380001",
+    "recipient_signature": "Rahul S / Security Gate Verified",
+    "recipient_gps": "23.0225,72.5714",
+    "rto_reason": null,
+    "weight_kg": 1.45
+  },
+  "invoice_dispatch": {
+    "invoice_number": "INV-2026-44760",
+    "invoice_date": "2026-08-10",
+    "line_items": [
+      {
+        "item": "Wireless Noise Cancelling Earbuds",
+        "qty": 1,
+        "price": 4161.95
+      }
+    ],
+    "item_manifest_verified": true,
+    "shipping_label_id": "LBL-922157",
+    "total_amount": 4161.95,
+    "tax_amount": null,
+    "shipping_fee": null
+  },
+  "customer_communication": [
+    {
+      "ticket_id": "TICK-8454",
+      "timestamp": "2026-08-10T11:00:00Z",
+      "sender": "system",
+      "message": "Your package has been dispatched via Delhivery Logistics with tracking URL https://track.example.com",
+      "resolution_offered": "Tracking link delivered via SMS and email.",
+      "customer_response": null,
+      "return_label_sent": null
+    }
+  ],
+  "customer_account": null,
+  "refund_logs": null,
+  "price_breakdown": null,
+  "subscription_mandate": null,
+  "service_usage": {
+    "account_id": "cust_5673",
+    "active_login_count": 5,
+    "last_login_timestamp": "2026-08-18T12:00:00Z",
+    "license_key_activated": true,
+    "features_used": [],
+    "bytes_transferred": null
+  },
+  "merchant_notes": "Courier confirmed delivery signed by recipient at registered address."
+}

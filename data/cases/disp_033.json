@@ -1,0 +1,55 @@
+{
+  "case_id": "disp_033",
+  "merchant_id": "merch_nykaa_15",
+  "merchant_name": "Nykaa Cosmetics",
+  "merchant_category": "E-commerce",
+  "payment_id": "pay_50603163",
+  "dispute_amount": 15875.16,
+  "currency": "INR",
+  "payment_method": "upi",
+  "card_network": "UPI",
+  "dispute_category": "product_service_not_received",
+  "reason_code": "UPI-02",
+  "reason_description": "Cardholder claims goods or services were not received",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "lose",
+  "ground_truth_reasoning": "Carrier tracking confirms package was returned to origin (RTO); customer never received goods.",
+  "auth_3ds": null,
+  "delivery_tracking": {
+    "carrier_name": "Ekart Logistics",
+    "tracking_number": "TRK31172421",
+    "status": "rto",
+    "dispatch_date": "2026-08-10",
+    "delivery_timestamp": null,
+    "shipping_address": "House 66, Mumbai, Maharashtra - 400001",
+    "delivered_to_address": null,
+    "recipient_signature": null,
+    "recipient_gps": null,
+    "rto_reason": "Consignee not reachable / Returned to Origin",
+    "weight_kg": null
+  },
+  "invoice_dispatch": {
+    "invoice_number": "INV-2026-81200",
+    "invoice_date": "2026-08-10",
+    "line_items": [
+      {
+        "item": "Apparel Order",
+        "qty": 1,
+        "price": 15875.16
+      }
+    ],
+    "item_manifest_verified": false,
+    "shipping_label_id": null,
+    "total_amount": 15875.16,
+    "tax_amount": null,
+    "shipping_fee": null
+  },
+  "customer_communication": [],
+  "customer_account": null,
+  "refund_logs": null,
+  "price_breakdown": null,
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Package undelivered and returned to warehouse. Refund was not yet initiated."
+}

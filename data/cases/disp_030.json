@@ -1,0 +1,55 @@
+{
+  "case_id": "disp_030",
+  "merchant_id": "merch_boat_10",
+  "merchant_name": "boAt Lifestyle",
+  "merchant_category": "D2C",
+  "payment_id": "pay_45650176",
+  "dispute_amount": 5968.11,
+  "currency": "INR",
+  "payment_method": "upi",
+  "card_network": "UPI",
+  "dispute_category": "product_service_not_received",
+  "reason_code": "UPI-02",
+  "reason_description": "Cardholder claims goods or services were not received",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "lose",
+  "ground_truth_reasoning": "Carrier tracking confirms package was returned to origin (RTO); customer never received goods.",
+  "auth_3ds": null,
+  "delivery_tracking": {
+    "carrier_name": "Delhivery Logistics",
+    "tracking_number": "TRK99889098",
+    "status": "rto",
+    "dispatch_date": "2026-08-10",
+    "delivery_timestamp": null,
+    "shipping_address": "House 50, Jaipur, Rajasthan - 302001",
+    "delivered_to_address": null,
+    "recipient_signature": null,
+    "recipient_gps": null,
+    "rto_reason": "Consignee not reachable / Returned to Origin",
+    "weight_kg": null
+  },
+  "invoice_dispatch": {
+    "invoice_number": "INV-2026-41285",
+    "invoice_date": "2026-08-10",
+    "line_items": [
+      {
+        "item": "Apparel Order",
+        "qty": 1,
+        "price": 5968.11
+      }
+    ],
+    "item_manifest_verified": false,
+    "shipping_label_id": null,
+    "total_amount": 5968.11,
+    "tax_amount": null,
+    "shipping_fee": null
+  },
+  "customer_communication": [],
+  "customer_account": null,
+  "refund_logs": null,
+  "price_breakdown": null,
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Package undelivered and returned to warehouse. Refund was not yet initiated."
+}

@@ -1,0 +1,55 @@
+{
+  "case_id": "disp_038",
+  "merchant_id": "merch_flipkart_01",
+  "merchant_name": "Flipkart India",
+  "merchant_category": "E-commerce",
+  "payment_id": "pay_84158663",
+  "dispute_amount": 1724.29,
+  "currency": "INR",
+  "payment_method": "card",
+  "card_network": "Visa",
+  "dispute_category": "product_service_not_received",
+  "reason_code": "RZP_NR_02",
+  "reason_description": "Cardholder claims goods or services were not received",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "ambiguous",
+  "ground_truth_reasoning": "Package still in transit past estimated delivery date; neither delivered nor returned.",
+  "auth_3ds": null,
+  "delivery_tracking": {
+    "carrier_name": "Shadowfax",
+    "tracking_number": "TRK14835614",
+    "status": "in_transit",
+    "dispatch_date": "2026-08-16",
+    "delivery_timestamp": null,
+    "shipping_address": "Sector 24, Mumbai, Maharashtra - 400001",
+    "delivered_to_address": null,
+    "recipient_signature": null,
+    "recipient_gps": null,
+    "rto_reason": null,
+    "weight_kg": null
+  },
+  "invoice_dispatch": {
+    "invoice_number": "INV-2026-86350",
+    "invoice_date": "2026-08-16",
+    "line_items": [
+      {
+        "item": "Home Decor Set",
+        "qty": 1,
+        "price": 1724.29
+      }
+    ],
+    "item_manifest_verified": true,
+    "shipping_label_id": null,
+    "total_amount": 1724.29,
+    "tax_amount": null,
+    "shipping_fee": null
+  },
+  "customer_communication": [],
+  "customer_account": null,
+  "refund_logs": null,
+  "price_breakdown": null,
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Courier delayed due to regional transit strikes."
+}

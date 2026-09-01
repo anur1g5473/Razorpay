@@ -1,0 +1,46 @@
+{
+  "case_id": "disp_042",
+  "merchant_id": "merch_lenskart_14",
+  "merchant_name": "Lenskart Eyewear",
+  "merchant_category": "D2C",
+  "payment_id": "pay_15197528",
+  "dispute_amount": 9124.34,
+  "currency": "INR",
+  "payment_method": "card",
+  "card_network": "Visa",
+  "dispute_category": "product_unacceptable_defective",
+  "reason_code": "RZP_DEF_05",
+  "reason_description": "Cardholder claims product was defective, damaged, or not as described",
+  "filed_date": "2026-08-20",
+  "due_date": "2026-09-05",
+  "ground_truth": "win",
+  "ground_truth_reasoning": "Merchant provided detailed spec match and offered return/replacement label which customer refused.",
+  "auth_3ds": null,
+  "delivery_tracking": null,
+  "invoice_dispatch": null,
+  "customer_communication": [
+    {
+      "ticket_id": "TICK-7267",
+      "timestamp": "2026-08-16T14:00:00Z",
+      "sender": "merchant",
+      "message": "We provided a pre-paid return shipping label #RET-8812 for inspection or replacement.",
+      "resolution_offered": "Pre-paid return shipping label and replacement within 48 hours.",
+      "customer_response": "Customer refused return process and demanded instant chargeback.",
+      "return_label_sent": true
+    }
+  ],
+  "customer_account": null,
+  "refund_logs": null,
+  "price_breakdown": {
+    "subtotal": 9124.34,
+    "tax": 0.0,
+    "shipping": 0.0,
+    "discount": 0.0,
+    "total_authorized": 9124.34,
+    "currency": "INR",
+    "item_specifications_url": "https://merchant.in/products/item-specs-certified"
+  },
+  "subscription_mandate": null,
+  "service_usage": null,
+  "merchant_notes": "Return authorization provided; customer kept product and refused return shipment."
+}
