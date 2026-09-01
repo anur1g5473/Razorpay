@@ -3,11 +3,12 @@
 > What's left to build, in rough priority order.
 
 ## Phase 1 — Evidence Rubric
-- [ ] Write rubric for all 6 dispute categories
-- [ ] Cover Razorpay reason codes (UPI, Visa, Mastercard, Rupay, Amex, RZP)
-- [ ] Implement `rubric_loader.py` with query interface
-- [ ] Schema validation for rubric JSON
-- [ ] Tests: all reason codes load, strong/weak criteria present
+- [x] Write rubric for all 6 dispute categories
+- [x] Cover Razorpay reason codes (UPI, Visa, Mastercard, Rupay, Amex, RZP)
+- [x] Implement `rubric_loader.py` with query interface
+- [x] Schema validation for rubric JSON
+- [x] Tests: all reason codes load, strong/weak criteria present
+
 
 ## Phase 2 — Synthetic Dataset
 - [ ] Generate 100 cases (40 win / 40 lose / 20 ambiguous)
