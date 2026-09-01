@@ -53,3 +53,4 @@ web/.env.local
 # Misc
 *.log
 *.tmp
+video.md

@@ -55,7 +55,7 @@
 ## Phase 7 — Polish
 - [x] README hero section with real, un-cherry-picked metrics & confusion matrix
 - [x] ARCHITECTURE.md deep dive with complete system topology
-- [x] 5-minute video demo pitch script (`video.md` and `form.md`)
+- [x] 5-minute video demo pitch script (local `video.md` and `form.md`)
 - [x] Full test suite validation (56/56 pytest tests passing)
 - [x] Submission form questionnaire documentation (`form.md`)
 
