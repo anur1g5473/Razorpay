@@ -1,7 +1,7 @@
 # DisputeShield — Benchmark Evaluation Report
 
-> **Evaluation Run ID:** `eval_20260901_094920`  
-> **Date:** 2026-09-01T09:49:20.531402+00:00  
+> **Evaluation Run ID:** `eval_20260901_100747`  
+> **Date:** 2026-09-01T10:07:47.078380+00:00  
 > **Total Evaluated Cases:** 100
 
 ## 1. Executive Summary & Core Metrics
@@ -46,5 +46,5 @@
 
 - **Mean Latency:** 0.07 ms
 - **Median (P50):** 0.06 ms
-- **P95 Latency:** 0.15 ms
-- **Min / Max:** 0.04 ms / 0.22 ms
+- **P95 Latency:** 0.11 ms
+- **Min / Max:** 0.04 ms / 0.2 ms

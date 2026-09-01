@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "last_updated": "2026-09-01",
-  "description": "DisputeShield Evidence Evaluation Rubric across card schemes (Visa, Mastercard, RuPay, Amex), UPI, and Razorpay codes.",
+  "description": "DisputeShield Evidence Evaluation Rubric covering card networks (Visa, Mastercard, RuPay, Amex), UPI, and Razorpay internal dispute reason codes.",
   "categories": {
     "fraudulent_unauthorized": {
       "category_id": "fraudulent_unauthorized",

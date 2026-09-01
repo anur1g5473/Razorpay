@@ -110,15 +110,23 @@ def handle_analyze_single(case_id: str, use_llm: bool = False) -> int:
     table.add_column("Points Awarded", justify="right")
     table.add_column("Findings / Notes", style="dim")
 
-    for item in result.scoring_result.evidence_breakdown:
+    for item in result.scoring_result.item_scores:
         lvl_style = "bold red" if item.compelling_level == "critical" else "bold yellow" if item.compelling_level == "important" else "cyan"
-        pts_style = "green" if item.points_awarded > 0 else "red"
+        pts_style = "green" if item.score_awarded > 0 else "red"
+        notes = []
+        if item.strengths:
+            notes.extend([f"+ {s}" for s in item.strengths[:1]])
+        if item.weaknesses:
+            notes.extend([f"- {w}" for w in item.weaknesses[:1]])
+        if item.fields_missing:
+            notes.append(f"missing: {', '.join(item.fields_missing[:2])}")
+        notes_str = "; ".join(notes) if notes else ("Present & Verified" if item.present else "Missing")
         table.add_row(
             item.name,
             f"[{lvl_style}]{item.compelling_level.upper()}[/{lvl_style}]",
-            f"{item.weight:.1f}",
-            f"[{pts_style}]{item.points_awarded:.1f}[/{pts_style}]",
-            "; ".join(item.findings)[:60] if item.findings else "No issues found",
+            f"{item.max_score:.1f}",
+            f"[{pts_style}]{item.score_awarded:.1f}[/{pts_style}]",
+            notes_str[:70],
         )
     console.print(table)
 
@@ -140,13 +148,82 @@ def handle_analyze_single(case_id: str, use_llm: bool = False) -> int:
     return 0
 
 
+def handle_eval() -> int:
+    console.print("\n[bold cyan]🚀 Running DisputeShield Evaluation Benchmark (100 cases)...[/bold cyan]\n")
+    harness = EvaluationHarness()
+    summary = harness.run_all()
+
+    cls = summary.classification
+    fin = summary.financial
+    cm = summary.confusion_matrix
+
+    console.print(Panel(
+        f"[bold white]Total Cases Evaluated:[/bold white] {summary.total_cases}\n"
+        f"[bold white]Accuracy:[/bold white] {cls.accuracy * 100:.1f}%  |  "
+        f"[bold white]Contest Precision:[/bold white] {cls.precision_contest * 100:.1f}%  |  "
+        f"[bold white]Contest Recall:[/bold white] {cls.recall_contest * 100:.1f}%  |  "
+        f"[bold white]Contest F1:[/bold white] {cls.f1_contest:.3f}\n"
+        f"[bold white]Gross Recovered:[/bold white] INR {fin.recovered_amount_inr:,.2f}  |  "
+        f"[bold white]Unnecessary Fees Avoided:[/bold white] INR {fin.prevented_penalty_fees_inr:,.2f}  |  "
+        f"[bold white]Net Financial Gain:[/bold white] [bold green]INR {fin.net_financial_gain_inr:,.2f}[/bold green]",
+        title="[bold green]Benchmark Performance Summary[/bold green]",
+        border_style="green",
+        box=box.ROUNDED,
+    ))
+
+    table = Table(title="Confusion Matrix", box=box.ROUNDED, header_style="bold magenta")
+    table.add_column("Actual Ground Truth", justify="left", style="bold white")
+    table.add_column("Predicted CONTEST", justify="center", style="green")
+    table.add_column("Predicted ACCEPT", justify="center", style="red")
+    table.add_column("Predicted HUMAN REVIEW", justify="center", style="yellow")
+
+    for actual_label in ["WIN", "LOSE", "AMBIGUOUS"]:
+        row_data = cm.get(actual_label, {})
+        table.add_row(
+            f"Actual {actual_label}",
+            str(row_data.get("contest", 0)),
+            str(row_data.get("accept", 0)),
+            str(row_data.get("human_review", 0)),
+        )
+    console.print(table)
+    return 0
+
+
+def handle_analyze_all(use_llm: bool = False) -> int:
+    cases = load_all_cases()
+    console.print(f"\n[bold cyan]Analyzing all {len(cases)} cases with DisputePipeline...[/bold cyan]\n")
+    pipeline = DisputePipeline(use_llm=use_llm)
+    results = pipeline.run_batch(cases)
+    
+    table = Table(title=f"Batch Analysis Results ({len(results)} cases)", box=box.ROUNDED)
+    table.add_column("Case ID", style="bold yellow", width=12)
+    table.add_column("Category", style="green", width=28)
+    table.add_column("Decision", justify="center", width=16)
+    table.add_column("Score", justify="right", width=10)
+    table.add_column("Win Prob", justify="right", width=10)
+    table.add_column("Latency", justify="right", width=10)
+
+    for r in results:
+        dec_color = "green" if r.decision == "CONTEST" else "red" if r.decision == "ACCEPT_CHARGEBACK" else "yellow"
+        table.add_row(
+            r.case_id,
+            r.category_title[:26],
+            f"[{dec_color} bold]{r.decision}[/{dec_color} bold]",
+            f"{r.total_score:.1f}",
+            f"{r.win_probability_estimate * 100:.0f}%",
+            f"{r.execution_time_ms:.0f}ms",
+        )
+    console.print(table)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
     if args.command is None:
         console.print(
-            "[bold blue]DisputeShield[/bold blue] v0.1.0 — "
+            "[bold blue]DisputeShield[/bold blue] v1.0.0 — "
             "AI-powered chargeback evidence responder.\n"
         )
         parser.print_help()
@@ -154,21 +231,18 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "analyze":
         if args.run_all:
-            console.print("[yellow]⏳ Batch analysis not yet implemented (Phase 3)[/yellow]")
+            return handle_analyze_all(use_llm=args.llm)
         elif args.case_id:
-            console.print(
-                f"[yellow]⏳ Analysis for [bold]{args.case_id}[/bold] "
-                f"not yet implemented (Phase 3)[/yellow]"
-            )
+            return handle_analyze_single(args.case_id, use_llm=args.llm)
         else:
             console.print("[red]Error: provide a CASE_ID or use --all[/red]")
             return 1
 
     elif args.command == "eval":
-        console.print("[yellow]⏳ Evaluation harness not yet implemented (Phase 4)[/yellow]")
+        return handle_eval()
 
     elif args.command == "list":
-        console.print("[yellow]⏳ Case listing not yet implemented (Phase 2)[/yellow]")
+        return handle_list(category=args.category, outcome=args.outcome, limit=args.limit)
 
     return 0
 

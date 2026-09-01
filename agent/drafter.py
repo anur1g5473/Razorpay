@@ -36,16 +36,30 @@ def _format_compelling_evidence_summary(scoring_result: ScoringResult, case_data
 def _draft_deterministic_rebuttal(case_data: Dict[str, Any], scoring_result: ScoringResult) -> str:
     """Deterministic fallback rebuttal letter generator."""
     txn = case_data.get("transaction", {})
-    cust = case_data.get("customer", {})
-    fulfill = case_data.get("fulfillment", {})
-    auth = case_data.get("authentication", {})
+    if hasattr(txn, "model_dump"):
+        txn = txn.model_dump()
+    elif not isinstance(txn, dict):
+        txn = {}
 
-    payment_id = txn.get("payment_id") or case_data.get("payment_id", "N/A")
-    order_id = txn.get("order_id") or case_data.get("order_id", "N/A")
-    amount = txn.get("amount") or case_data.get("amount", "0.00")
-    currency = txn.get("currency") or case_data.get("currency", "INR")
+    cust_raw = case_data.get("customer") or case_data.get("customer_account") or {}
+    cust = cust_raw.model_dump() if hasattr(cust_raw, "model_dump") else (cust_raw if isinstance(cust_raw, dict) else {})
+
+    fulfill_raw = case_data.get("fulfillment") or case_data.get("delivery_tracking") or {}
+    fulfill = fulfill_raw.model_dump() if hasattr(fulfill_raw, "model_dump") else (fulfill_raw if isinstance(fulfill_raw, dict) else {})
+
+    auth_raw = case_data.get("authentication") or case_data.get("auth_3ds") or {}
+    auth = auth_raw.model_dump() if hasattr(auth_raw, "model_dump") else (auth_raw if isinstance(auth_raw, dict) else {})
+
+    payment_id = case_data.get("payment_id") or txn.get("payment_id", "N/A")
+    order_id = case_data.get("order_id") or txn.get("order_id", f"ord_{payment_id[-8:]}" if len(payment_id) > 8 else "N/A")
+    raw_amount = case_data.get("dispute_amount") or case_data.get("amount") or txn.get("amount", 0.0)
+    try:
+        amount = f"{float(raw_amount):,.2f}"
+    except (ValueError, TypeError):
+        amount = str(raw_amount)
+    currency = case_data.get("currency") or txn.get("currency", "INR")
     reason_code = case_data.get("reason_code", "N/A")
-    customer_name = cust.get("name") or cust.get("customer_name", "Cardholder")
+    customer_name = cust.get("name") or cust.get("customer_name") or case_data.get("customer_name", "Cardholder")
     merchant_name = case_data.get("merchant_name", "Merchant")
 
     letter_lines = [
